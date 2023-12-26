@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Входная страница</title>
+<script>
+        function updateTime() {
+            var currentTime = new Date().toLocaleTimeString();
+            document.getElementById('time').innerHTML = currentTime;
+        }
+        setInterval(updateTime, 1000);
+    </script>
+{% endblock %}
+
+
+{% block body %}
+<h1>Current Time: <span id="time">{{ current_time }}</span></h1>
+<a href="/login">Войти</a>
+{% endblock %}

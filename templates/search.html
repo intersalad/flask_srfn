@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Поиск</title>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="d1">
+  <form method="GET">
+  <input type="prompt" name="q" value="{{request.args.get('q', '')}}" placeholder="Искать здесь...">
+  <button type="submit"></button>
+  </form>
+</div>
+<p>{{ ans }}</p>
+
+{% endblock %}

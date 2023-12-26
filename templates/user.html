@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Ваш профиль</title>
+{% endblock %}
+
+
+{% block body %}
+
+<article class="item">
+  <div class="photo">
+    <img class="personPhoto" alt="" src="{{photo}}">
+  </div>
+</article>
+
+<a>мы знаем про вас многое</a>
+<p href="https://vk.com/id{{ info['id'] }}"> Ваш профиль VK </p>
+<p>Ваша страна: {{info['country']['title']}}</p>
+<p>Ваш город: {{ info['city']['title'] }}</p>
+<p>Ваш username: {{info['domain']}}</p>
+<a href="/search">Поиск</a>
+
+
+
+
+{% endblock %}
