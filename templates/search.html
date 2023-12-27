@@ -9,7 +9,7 @@
 
     .card {
       border: 1px solid #ccc;
-      border-radius: 10px;
+      border-radius: 15px;
       padding: 20px;
       margin: 20px auto;
       width: 80%; /* ширина карточки составляет 80% ширины экрана */
@@ -60,6 +60,8 @@
   </form>
 </div>
 
+<p>{{ text }}</p>
+
 <div class="container" id="cards-container"></div>
 
 <div>{% for i in answer %}
@@ -73,6 +75,10 @@
         </div>
         <div class="who-rec">
         Рекомендует:
+            {% for user in i['who_rec'] %}
+            <a href="https://vk.com/id{{ user[2] }}">{{ user[0] }} {{user[1]}}</a>
+            {% endfor %}
+
         </div>
       </button>
   {% endfor %}

@@ -2,7 +2,7 @@ import datetime
 from flask import Flask, redirect, url_for, session, request, render_template, request
 import requests
 from database import Database
-from search import search_validate, search, get_id
+from search import search_validate, search, get_id, rec_sort
 
 # Создание экземпляра базы данных
 db = Database('personal_data.db')
@@ -19,12 +19,18 @@ def search_page():
     if q is not None:
         ans = 'Вы искали ' + str(q)
         if search_validate(q):
-            ans = get_id(session, q)
+            ans, user_id = get_id(session, q)
             #print(search(q))
-            result = db.rec_into_data(ans, q)
-            print()
-            print('result', result)
-            return render_template('/search.html', answer=result)
+            print('ans  !!!  ', ans)
+            if ans is not None:
+                after_sort = rec_sort(ans, user_id)
+                result = db.rec_into_data(after_sort, q)
+                print()
+                print('result', result)
+                return render_template('/search.html', answer=result)
+            else:
+                return render_template('/search.html', text='Ничего не найдено')
+
     else:
         ans = ''
         return render_template('/search.html')

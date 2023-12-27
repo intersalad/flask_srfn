@@ -12,6 +12,8 @@ def prompt_into_category(prompt):
     prompt = str(prompt).lower()
     if prompt == 'видеограф':
         return 1488
+    else:
+        return 0
 
 
 def search(prompt):
@@ -52,7 +54,7 @@ def get_id(ses, prompt):
         if otvet == 0:
             return "Ничего не нашли, сорян"
         else:
-            return otvet
+            return otvet, user_id
 
     except requests.exceptions.HTTPError as error:
         print(f'HTTP error occurred: {error}')
@@ -66,22 +68,47 @@ def find_recs(users_id_list, zapros):
     answer_list = []
     print(users_id_list)
     print('zapros ', zapros)
-    zapros = prompt_into_category(zapros)
-    print('category: ', zapros)
-    print()
-    for i in users_id_list:
-        print(i, zapros)
-        res = db.get_recs(i, zapros)
-        if res:
-            print('УРАА!')
-            print('res ', res)
-            answer_list.append(res)
+    if prompt_into_category(zapros) != 0:
+        zapros = prompt_into_category(zapros)
+        print('category: ', zapros)
+        print()
+        for i in users_id_list:
+            print(i, zapros)
+            res = db.get_recs(i, zapros)
+            if res:
+                print('УРАА!')
+                print('res ', res)
+                answer_list.append(res)
 
-    if answer_list:
-        return answer_list
+        if answer_list:
+            return answer_list
+        else:
+            return 0
 
-    else:
-        return 0
+
+def rec_sort(recs_list, user_id):
+    final_specs_list = []
+    spec_recs_count = {}
+    for i in recs_list:
+        print('i ', i)
+        for j in i:
+            if j[1] == user_id:
+                print('собственная рекомендация')
+            if j[2] not in final_specs_list:
+                final_specs_list.append(j[2])
+                spec_recs_count[j[2]] = [1, j[1]]
+                print('новый спец', spec_recs_count, final_specs_list)
+            else:
+                spec_recs_count[j[2]][0] += 1
+                spec_recs_count[j[2]].append(j[1])
+                print('повторный спец', spec_recs_count, final_specs_list)
+    print('spec_recs_count ', spec_recs_count)
+    print('final_specs_list ', final_specs_list)
+    # cортировка спецов по числу рекомендаций
+    for i in sorted(spec_recs_count.items(), key=lambda para: para[1], reverse=True):
+        print(i)
+    return spec_recs_count
+
 
 
 
