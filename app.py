@@ -2,10 +2,10 @@ import datetime
 from flask import Flask, redirect, url_for, session, request, render_template, request
 import requests
 from database import Database
-from search import search_validate, search
+from search import search_validate, search, get_id
 
 # Создание экземпляра базы данных
-db = Database('mydatabase.db')
+db = Database('personal_data.db')
 
 
 app = Flask(__name__)
@@ -19,10 +19,15 @@ def search_page():
     if q is not None:
         ans = 'Вы искали ' + str(q)
         if search_validate(q):
-            print(search(q))
+            ans = get_id(session, q)
+            #print(search(q))
+            result = db.rec_into_data(ans, q)
+            print()
+            print('result', result)
+            return render_template('/search.html', answer=result)
     else:
         ans = ''
-    return render_template('/search.html', ans=ans)
+        return render_template('/search.html')
 
 
 @app.route('/home')
@@ -56,8 +61,8 @@ def home():
     site = us_inf['site']
 
     db.insert_user(vk_id, first_name, last_name, sex, domain, city, country, photo, site)
-
     users = db.get_users()
+
     for user in users:
         print(user)
     print(1)
@@ -77,6 +82,12 @@ def users():
     users_list = db.get_users()
     print(users_list)
     return render_template("users_list.html", a=users_list)
+
+@app.route('/specs')
+def specs():
+    specs_list = db.get_specs()
+    print(specs_list)
+    return render_template("specs_list.html", a=specs_list)
 
 @app.route('/login')
 def login():

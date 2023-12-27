@@ -2,17 +2,80 @@
 
 {% block head %}
 <title>Поиск</title>
+<style>
+    .container {
+      text-align: center; /* Центрируем содержимое по горизонтали */
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 80%; /* ширина карточки составляет 80% ширины экрана */
+      max-width: 1800px; /* максимальная ширина карточки */
+      text-align: left; /* Центрируем содержимое по горизонтали внутри карточки */
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      background-color: #f9f9f9; /* Цвет фона карточки */
+      display: block; /* Размещаем карточки друг под другом */
+    }
+
+    .who-rec {
+    text-align: right
+    }
+
+    .name {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .job-title {
+      color: #999;
+      margin-top: 10px;
+    }
+
+    .contact-info {
+      margin-top: 20px;
+    }
+
+    .round {
+      border-radius: 10%;
+    }
+
+    button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      outline: none;
+    }
+  </style>
 {% endblock %}
 
 
 {% block body %}
-
 <div class="d1">
   <form method="GET">
   <input type="prompt" name="q" value="{{request.args.get('q', '')}}" placeholder="Искать здесь...">
   <button type="submit"></button>
   </form>
 </div>
-<p>{{ ans }}</p>
+
+<div class="container" id="cards-container"></div>
+
+<div>{% for i in answer %}
+        <button href="/home" class="card">
+        <img class="round" alt="" src="{{ i['photo'] }}">
+        <div class="name">{{ i['name'] }}</div>
+        <div class="job-title">{{ i['jobTitle'] }}</div>
+        <div class="contact-info">
+          Email: {{ i['email'] }}<br>
+          Phone: {{ i['phone'] }}
+        </div>
+        <div class="who-rec">
+        Рекомендует:
+        </div>
+      </button>
+  {% endfor %}
+</div>
 
 {% endblock %}
