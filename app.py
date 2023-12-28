@@ -77,6 +77,7 @@ def home():
 
 @app.route('/')
 def index():
+    return "hello"
     if 'vk_token' in session:
         return redirect(url_for('home'))
     return render_template('index.html')
