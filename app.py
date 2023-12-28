@@ -1,4 +1,3 @@
-import datetime
 from flask import Flask, redirect, url_for, session, request, render_template, request
 import requests
 from database import Database
