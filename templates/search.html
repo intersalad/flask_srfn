@@ -30,12 +30,11 @@
     }
 
     .job-title {
-      color: #999;
-      margin-top: 10px;
+      margin-top: 0px;
     }
 
     .contact-info {
-      margin-top: 20px;
+      margin-top: 0px;
     }
 
     .round {
@@ -65,13 +64,13 @@
 <div class="container" id="cards-container"></div>
 
 <div>{% for i in answer %}
-        <button href="/home" class="card">
+        <button class="card">
         <img class="round" alt="" src="{{ i['photo'] }}">
         <div class="name">{{ i['name'] }}</div>
         <div class="job-title">{{ i['jobTitle'] }}</div>
         <div class="contact-info">
-          Email: {{ i['email'] }}<br>
-          Phone: {{ i['phone'] }}
+            <a href="https://vk.com/id{{ i['site'] }}">Контакты</a><br>
+            {{ i['description'] }}
         </div>
         <div class="who-rec">
         Рекомендует:
