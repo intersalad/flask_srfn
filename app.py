@@ -1,14 +1,36 @@
-from flask import Flask, redirect, url_for, session, request, render_template, request
+from flask import Flask, redirect, url_for, session, render_template, request
 import requests
-from database import Database
-from search import search_validate, search, get_id, rec_sort
+from search import search_validate, get_id, rec_sort
+
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
+from supabase import create_client
+
+url = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_KEY")
+db = create_client(url, key)
+
 
 # Создание экземпляра базы данных
-db = Database('personal_data.db')
+#db = Database('personal_data.db')
 
 
 app = Flask(__name__)
+#app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:zwIx0bhW5XhRaBcw@db.ocalnnljxiorkuhmxihp.supabase.co:5432/postgres"
 app.secret_key = '404203ae404203ae404203aed94351e15244042404203ae253ffb3aa2882118cd1bbdcb'
+
+
+@app.route('/')
+def index():
+    return "hello"
+    if 0 == 1:
+        if 'vk_token' in session:
+            return redirect(url_for('home'))
+        return render_template('index.html')
+
+
 
 
 @app.route('/search')
@@ -75,12 +97,7 @@ def home():
     return render_template('user.html', name=name, last_name=last_name, photo=photo, info=us_inf)
 
 
-@app.route('/')
-def index():
-    return "hello"
-    if 'vk_token' in session:
-        return redirect(url_for('home'))
-    return render_template('index.html')
+
 
 
 @app.route('/users')

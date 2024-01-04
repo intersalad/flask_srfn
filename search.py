@@ -3,14 +3,17 @@ from database import Database
 
 db = Database('personal_data.db')
 
+videograph = ['видеограф', 'видеооператор', 'видеосъемка', 'съемка видео', 'монтаж видео', 'снять видео', 'видео',
+              'видеомонтаж', 'монтаж видео', 'видеоролик', 'режиссер монтажа', 'монтаж']
+
 
 def search_validate(prompt):
     return True
 
 
 def prompt_into_category(prompt):
-    prompt = str(prompt).lower()
-    if prompt == 'видеограф':
+    prompt = str(prompt).lower().strip()
+    if prompt in videograph:
         return 1488
     else:
         return 0
